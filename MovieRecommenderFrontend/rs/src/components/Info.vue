@@ -91,6 +91,6 @@ export default {
       ],
       favor_click:"{info:[platform:'h5',page:'info-5-3',dom:'button',dom_id:'button-7-8,event:'click']}"
     };
-  },
+},
 };
 </script>

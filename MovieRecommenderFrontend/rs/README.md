@@ -1,6 +1,6 @@
-# y
+# ttms-web-vue
 
-> Recommender Systems
+> A Vue.js project
 
 ## Build Setup
 

@@ -1,146 +1,44 @@
 <template>
-  <el-row>
-    <el-row :guter="10">
-      <el-col :span="10">
-        <div style="text-align: right">
-          <el-image
-            :src="url1"
-            fit="fit"
-            style="width: 200px; heght: 200px"
-            @click="dump"
-          >
-          </el-image>
-        </div>
-      </el-col>
-      <el-col :span="10">
-        <div class="grid-content bg-purple" style="padding: 10px">
-          <div style="font-weight: bold; font-size: 18px">肖申克的救赎</div>
-          <div style="font-size: 15px; margin-top: 13px"></div>
-        </div>
-        <div style="margin-top: 10px">
-          <el-tag type="danger">9.7</el-tag>
-          <el-tag>2196621</el-tag>
-        </div>
-        <div
-          style="
-            font-weight: bold;
-            font-size: 25px;
-            color: red;
-            margin-top: 20px;
-          "
-        >
-          希望让人自由
-        </div>
-      </el-col>
-    </el-row>
-    <el-row>
-      <el-col :span="10">
-        <div style="text-align: right">
-          <el-image :src="url2" fit="fit" style="width: 200px; heght: 200px">
-          </el-image>
-        </div>
-      </el-col>
-      <el-col :span="10">
-        <div class="grid-content bg-purple" style="padding: 10px">
-          <div style="font-weight: bold; font-size: 18px">霸王别姬</div>
-          <div style="font-size: 15px; margin-top: 13px"></div>
-        </div>
-        <div style="margin-top: 10px">
-          <el-tag type="danger">9.6</el-tag>
-          <el-tag>1629471</el-tag>
-        </div>
-        <div
-          style="
-            font-weight: bold;
-            font-size: 25px;
-            color: red;
-            margin-top: 20px;
-          "
-        >
-          风华绝代
-        </div>
-      </el-col>
-    </el-row>
-
-    <el-row>
-      <el-col :span="10">
-        <div style="text-align: right">
-          <el-image :src="url3" fit="fit" style="width: 200px; heght: 200px">
-          </el-image>
-        </div>
-      </el-col>
-      <el-col :span="10">
-        <div class="grid-content bg-purple" style="padding: 10px">
-          <div style="font-weight: bold; font-size: 18px">阿甘正传</div>
-          <div style="font-size: 15px; margin-top: 13px"></div>
-        </div>
-        <div style="margin-top: 10px">
-          <el-tag type="danger">9.5</el-tag>
-          <el-tag>1629471</el-tag>
-        </div>
-        <div
-          style="
-            font-weight: bold;
-            font-size: 25px;
-            color: red;
-            margin-top: 20px;
-          "
-        >
-          一部美国近现代史
-        </div>
-      </el-col>
-    </el-row>
-    <el-row>
-      <el-col :span="10">
-        <div style="text-align: right">
-          <el-image :src="url4" fit="fit" style="width: 200px; heght: 200px">
-          </el-image>
-        </div>
-      </el-col>
-      <el-col :span="10">
-        <div class="grid-content bg-purple" style="padding: 10px">
-          <div style="font-weight: bold; font-size: 18px">阿甘正传</div>
-          <div style="font-size: 15px; margin-top: 13px"></div>
-        </div>
-        <div style="margin-top: 10px">
-          <el-tag type="danger">9.5</el-tag>
-          <el-tag>1629471</el-tag>
-        </div>
-        <div
-          style="
-            font-weight: bold;
-            font-size: 25px;
-            color: red;
-            margin-top: 20px;
-          "
-        >
-          一部美国近现代史
-        </div>
-      </el-col>
-    </el-row>
-  </el-row>
+  <el-table :data="tabledata" style="width: 100%">
+    <el-table-column width="100px" align="center" prop="name" label="名称">
+    </el-table-column>
+    <el-table-column width="100px" align="center" prop="score" label="评分">
+    </el-table-column>
+    <el-table-column width="300px" align="center" prop="picUrl" label="封面">
+      <template slot-scope="scope">
+        <img :src="url + scope.row.picUrl" />
+      </template>
+    </el-table-column>
+    <el-table-column width="100px" align="center" prop="describe" label="简介">
+    </el-table-column>
+  </el-table>
 </template>
 
 <script>
+import Axios from "@/axios";
+
 export default {
   name: "App",
   data() {
     return {
-      url1:
-        //"https://img2.doubanio.com/view/photo/s_ratio_poster/public/p480747492.jpg",
-        //url1: "http://img3m2.ddimg.cn/39/22/23709252-1_u_1.jpg",
-        "http://127.0.0.1/img/pic.jpg",
-      url2:
-        "https://img3.doubanio.com/view/photo/s_ratio_poster/public/p2561716440.jpg",
-      url3:
-        "https://img2.doubanio.com/view/photo/s_ratio_poster/public/p2372307693.jpg",
-      url4:
-        "https://img2.doubanio.com/view/photo/s_ratio_poster/public/p2372307694.jpg",
+      tabledata: [],
+      url: "http://127.0.0.1/img/",
     };
+  },
+  mounted() {
+    this.getMovie(); //在html加载完成后进行，相当于在页面上同步显示后端数据
   },
   methods: {
     dump() {
       this.$router.push("/info");
+    },
+    getMovie() {
+      Axios.send("/movie/top250", "get", {
+        username: "winter",
+      }).then((result) => {
+        this.tabledata = result.data;
+        console.log(this.tabledata);
+      });
     },
   },
 };
@@ -153,6 +51,4 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
 }
-</style>

@@ -1,56 +1,42 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import List from '@/components/List'
-import Info from '@/components/Info'
-import Login from '@/components/Login'
+import log from '@/components/log'
+import login from '@/components/login'
+import logon from '@/components/logon'
+import list from '@/components/list'
+import info from '@/components/info'
+
 
 Vue.use(Router)
 
 export default new Router({
-  routes: [
-    {
-      path: '/',
-      name: 'Login',
-      component: Login,
-      meta:{
-        keepalive:false
-      }
-    },
-    // {
-    //   path:'*',
-    //   redirect:'/'
-    // },
-    {
-      path: '/list',
-      name: 'List',
-      component: List
+  routes: [{
+    path: '/',
+    redirect: '/log'
+  }, 
+  {
+    path: '/log',
+    component: log,
+    children: [{
+      path: '',
+      component: login
+    }, {
+      path: 'login',
+      component: login
     },
     {
-      path: '/info',
-      name: 'Info',
-      component: Info
+      path: 'logon',
+      component: logon
     }
+    ]
+  }, 
+  {
+    path: '/list',
+    component: list
+  },
+  {
+    path: '/info',
+    component: info
+  }
   ]
 })
-
-var app = new Vue(
-  {
-    data: {},
-    el: '#app',
-    render: h => h(App),
-    router,
-    store,
-    created() {
-      this.checkLogin();
-    },
-    methods:{
-      checkLogin() {
-        if(!this.getCookie('uid')) {
-          this.$router.push('/login')
-        } else {
-          this.$router.push('list')
-        }
-      }
-    }
-  }
-)

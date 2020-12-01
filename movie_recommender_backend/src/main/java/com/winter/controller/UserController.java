@@ -6,10 +6,12 @@ import com.winter.common.ServerResponse;
 import com.winter.domain.User;
 import com.winter.service.UserService;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 @RestController
 @RequestMapping("/user")
@@ -18,8 +20,13 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    private static final Logger LOG = LoggerFactory.getLogger(UserController.class);
+
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public ServerResponse<User> login(String username, String password) {
+    public ServerResponse<User> login(String username, String password ) {
+//        String username = json.get("username");
+//        String password = json.get("password");
+        LOG.info(username + " " + password);
         if (StringUtils.isBlank(username) || StringUtils.isBlank(password)) {
             return ServerResponse.createByErrorCodeMessage(ResponseCode.ILLEGAL_ARGUMENT.getCode(),
                     ResponseCode.ILLEGAL_ARGUMENT.getDesc());
@@ -35,6 +42,7 @@ public class UserController {
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public ServerResponse register(User user) {
+        LOG.info(user.toString());
         if (StringUtils.isBlank(user.getName()) || StringUtils.isBlank(user.getPassword())) {
             return ServerResponse.createByErrorCodeMessage(ResponseCode.ILLEGAL_ARGUMENT.getCode(),
                     ResponseCode.ILLEGAL_ARGUMENT.getDesc());

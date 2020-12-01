@@ -1,96 +1,80 @@
-
 <template>
-	<p class="login">
-		<el-tabs v-model="activeName" @tab-click="handleClick">
-			<el-tab-pane label="登录" name="first">
-				<el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-					<el-form-item label="名称" prop="name"><el-input v-model="ruleForm.name"></el-input></el-form-item>
- 
-					<el-form-item label="密码" prop="pass"><el-input type="password" v-model="ruleForm.pass" auto-complete="off"></el-input></el-form-item>
- 
-					<el-form-item>
-						<el-button type="primary" @click="submitForm('ruleForm')">登录</el-button>
- 
-						<el-button @click="resetForm('ruleForm')">重置</el-button>
-					</el-form-item>
-				</el-form>
-			</el-tab-pane>
- 
-			<el-tab-pane label="注册" name="second">
-				<register></register>
-			</el-tab-pane>
-		</el-tabs>
-	</p>
+    <div style="width: 270px; margin-top: 50px;">
+        <div style="text-align:left;font-weight: 400;color: #666;ont: 400 14px/1.5 'Hiragino Sans GB','WenQuanYi Micro Hei',tahoma,sans-serif;">账号登陆</div>
+        <el-form :model="login" ref="login" label-width="0" class="demo-ruleForm" style="margin: 0; padding: 0;">
+            <el-form-item label="" prop="user" :rules="[
+                { required: true, message: '用户名不能为空'},
+              ]">
+                <el-input style="margin-top: 8px;" placeholder="请输入用户名" prefix-icon="el-icon-user" v-model="login.user">
+                </el-input>
+            </el-form-item>
+            <el-form-item label="" prop="password" :rules="[
+              { required: true, message: '密码不能为空'},
+            ]">
+                <el-input style="margin-bottom: 8px;" placeholder="请输入密码" prefix-icon="el-icon-lock" v-model="login.password"
+                    show-password>
+                </el-input>
+            </el-form-item>
+            <el-form-item>
+                <el-button type="danger" style="margin-top: 10px; margin-bottom: 8px;" @click="submitForm('login')">
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    登陆
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                </el-button>
+            </el-form-item>
+        </el-form>
+
+        <div style="text-align:left;font-weight: 400;color: #666;ont: 400 14px/1.5 'Hiragino Sans GB','WenQuanYi Micro Hei',tahoma,sans-serif;">
+            还没有账号？<router-link :to="link" tag="span" style="color:red;cursor:pointer">立即注册</router-link>
+        </div>
+    </div>
 </template>
- 
+
 <script>
-import register from '@/components/register';
- 
+
+import Axios from '@/axios'
 export default {
-	data() {
-		var validatePass = (rule, value, callback) => {
-			if (value === '') {
-				callback(new Error('请输入密码'));
-			} else {
-				if (this.ruleForm.checkPass !== '') {
-					this.$refs.ruleForm.validateField('checkPass');
-				}
- 
-				callback();
-			}
-		};
- 
-		return {
-			activeName: 'first',
-			ruleForm: {
-				name: '',
-				pass: '',
-				checkPass: ''
-			},
-			rules: {
-				name: [{ required: true, message: '请输入您的名称', trigger: 'blur' }, { min: 2, max: 5, message: '长度在 2 到 5 个字符', trigger: 'blur' }],
-				pass: [{ required: true, validator: validatePass, trigger: 'blur' }]
-			}
-		};
-	},
- 
-	methods: {
-		//选项卡切换
-		handleClick(tab, event) {},
-		//重置表单
-		resetForm(formName) {
-			this.$refs[formName].resetFields();
-		},
-		//提交表单
-		submitForm(formName) {
-			this.$refs[formName].validate(valid => {
-				if (valid) {
-					this.$message({
-						type: 'success',
-						message: '登录成功'
-					});
-					this.$router.push('home');
-				} else {
-					console.log('error submit!!');
-					return false;
-				}
-			});
-		}
-	},
-	components: {
-		register
-	}
-};
+  data () {
+    return {
+      link: '/log/logon',
+      login: {
+        user: '',
+        password: ''
+      }
+    }
+  },
+  methods: {
+    submitForm (formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          Axios.send('/user/login', 'post', {
+            username: this.login.user,
+            password: this.login.password
+          }).then(res => {
+            /* console.log(res) */
+			//localStorage.setItem('token', res.token);
+            this.$router.push('/list')
+          }, error => {
+            console.log('registerAxiosError', error)
+          }).catch(err => {
+            throw err
+          })
+        } else {
+          console.log('error submit!!')
+          return false
+        }
+      })
+    },
+    resetForm (formName) {
+      this.$refs[formName].resetFields()
+    }
+  }
+
+}
 </script>
- 
-<style lang="scss">
-.login {
-	width: 400px;
-	margin: 0 auto;
-}
- 
-.el-tabsitem {
-	text-align: center;
-	width: 60px;
-}
+
+<style scoped>
+
 </style>

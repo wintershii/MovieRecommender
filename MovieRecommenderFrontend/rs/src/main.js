@@ -2,14 +2,16 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 import App from './App'
-import router from './router'
-import {getInfo,batchSend} from '../static/analytics.js'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
+import router from './router'
+import '@/assets/top.css'
+
 
 Vue.config.productionTip = false
 
 Vue.use(ElementUI)
+/* eslint-disable no-new */
 
 Vue.directive("click-stat",{
   bind(el,binding){
@@ -23,7 +25,6 @@ Vue.directive("click-stat",{
   }
 })
 
-/* eslint-disable no-new */
 new Vue({
   el: '#app',
   router,
