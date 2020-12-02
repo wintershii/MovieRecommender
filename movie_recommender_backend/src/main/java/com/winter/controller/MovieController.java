@@ -40,4 +40,13 @@ public class MovieController {
 
         return ServerResponse.createBySuccess(movieList);
     }
+
+    @RequestMapping(value = "/movie", method = RequestMethod.GET)
+    public ServerResponse getMovieDetail(Integer id) {
+        if (id == null || id < 2 || id > 251) {
+            return ServerResponse.createByErrorCodeMessage(ResponseCode.ILLEGAL_ARGUMENT.getCode(),
+                    ResponseCode.ILLEGAL_ARGUMENT.getDesc());
+        }
+        
+    }
 }
