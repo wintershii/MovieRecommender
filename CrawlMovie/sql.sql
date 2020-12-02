@@ -16,3 +16,14 @@ CREATE TABLE movie_users (
     gender TINYINT NOT NULL,
     PRIMARY KEY(id)
 )
+
+CREATE TABLE movie_details (
+    id INT(8) NOT NULL AUTO_INCREMENT,
+    m_id INT(8) NOT NULL,
+    director varchar(100) NOT NULL,
+    actor varchar(100) NOT NULL,
+    plot text NOT NULL,
+    comments text NOT NULL,
+    PRIMARY KEY(id),
+    UNIQUE KEY(m_id)
+)
