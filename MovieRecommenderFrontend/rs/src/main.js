@@ -13,17 +13,17 @@ Vue.config.productionTip = false
 Vue.use(ElementUI)
 /* eslint-disable no-new */
 
-Vue.directive("click-stat",{
-  bind(el,binding){
-    el.addEventListener("click",()=>{
-      var clickData = binding.value;
-      // console.log(clickData)
-      var info;
-      info = getInfo(clickData);
-      batchSend(info);
-    })
-  }
-})
+// Vue.directive("click-stat",{
+//   bind(el,binding){
+//     el.addEventListener("click",()=>{
+//       var clickData = binding.value;
+//       // console.log(clickData)
+//       var info;
+//       info = getInfo(clickData);
+//       batchSend(info);
+//     })
+//   }
+// })
 
 new Vue({
   el: '#app',

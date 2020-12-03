@@ -35,7 +35,8 @@ export default new Router({
     component: list
   },
   {
-    path: '/info',
+    path: '/info/:id',
+    name: 'info',
     component: info
   }
   ]

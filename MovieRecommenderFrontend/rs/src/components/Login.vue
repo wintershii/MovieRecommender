@@ -1,5 +1,7 @@
 <template>
-    <div style="width: 270px; margin-top: 50px;">
+<div>
+  <h1 style="margin:0 auto;">Movie Recommender</h1>
+    <div style="width: 270px; margin-top: 50px; margin-left: 20px">
         <div style="text-align:left;font-weight: 400;color: #666;ont: 400 14px/1.5 'Hiragino Sans GB','WenQuanYi Micro Hei',tahoma,sans-serif;">账号登陆</div>
         <el-form :model="login" ref="login" label-width="0" class="demo-ruleForm" style="margin: 0; padding: 0;">
             <el-form-item label="" prop="user" :rules="[
@@ -30,6 +32,7 @@
             还没有账号？<router-link :to="link" tag="span" style="color:red;cursor:pointer">立即注册</router-link>
         </div>
     </div>
+</div>
 </template>
 
 <script>
@@ -53,8 +56,8 @@ export default {
             username: this.login.user,
             password: this.login.password
           }).then(res => {
-            /* console.log(res) */
-			//localStorage.setItem('token', res.token);
+            console.log(res)
+			      localStorage.setItem('uid', res.data.id);
             this.$router.push('/list')
           }, error => {
             console.log('registerAxiosError', error)
