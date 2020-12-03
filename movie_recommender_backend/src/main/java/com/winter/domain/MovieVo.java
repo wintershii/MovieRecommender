@@ -1,5 +1,7 @@
 package com.winter.domain;
 
+import java.util.List;
+
 public class MovieVo {
     private Integer id;
 
@@ -19,7 +21,7 @@ public class MovieVo {
 
     private String plot;
 
-    private String comments;
+    private List<String> comments;
 
     public Integer getId() {
         return id;
@@ -93,11 +95,11 @@ public class MovieVo {
         this.plot = plot;
     }
 
-    public String getComments() {
+    public List<String> getComments() {
         return comments;
     }
 
-    public void setComments(String comments) {
+    public void setComments(List<String> comments) {
         this.comments = comments;
     }
 
