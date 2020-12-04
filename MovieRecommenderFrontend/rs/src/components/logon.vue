@@ -138,7 +138,7 @@ export default {
             .then(
               (res) => {
                 console.log(res);
-                this.$router.push("/user");
+                this.$router.push("/login");
               },
               (error) => {
                 alert("用户名重复");

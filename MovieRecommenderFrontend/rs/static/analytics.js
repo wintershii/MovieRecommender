@@ -21,7 +21,7 @@ function send(mid){
     data = getInfo();
     data['mid'] = mid;
     console.log(data)
-    var _data = Base64.encode(data);
+    var _data = Base64.encode(JSON.stringify(data));
     var url = "http://localhost:80/upload.gif?"+ _data;
     fetch(
         url,
