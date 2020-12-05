@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -86,4 +87,28 @@ public class MovieController {
         }
         return ServerResponse.createByErrorMessage("打分失败");
     }
+
+    @RequestMapping(value = "/collect", method = RequestMethod.POST)
+    public ServerResponse collectMovie(Integer uid, Integer mid) {
+        if (uid == null || mid == null || mid < 2 || mid > 251) {
+            return ServerResponse.createByErrorCodeMessage(ResponseCode.ILLEGAL_ARGUMENT.getCode(),
+                    ResponseCode.ILLEGAL_ARGUMENT.getDesc());
+        }
+        if (movieService.collectMovie(uid, mid)) {
+            return ServerResponse.createBySuccess();
+        }
+        return ServerResponse.createByErrorMessage("收藏失败");
+    }
+
+    @RequestMapping(value = "/collectList", method = RequestMethod.GET)
+    public ServerResponse getCollectList(Integer uid) {
+        if (uid == null) {
+            return ServerResponse.createByErrorCodeMessage(ResponseCode.ILLEGAL_ARGUMENT.getCode(),
+                    ResponseCode.ILLEGAL_ARGUMENT.getDesc());
+        }
+        List<Movie> movieList = movieService.getCollectMovies(uid);
+        return ServerResponse.createBySuccess(movieList);
+    }
+
+
 }

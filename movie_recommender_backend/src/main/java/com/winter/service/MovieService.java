@@ -1,12 +1,10 @@
 package com.winter.service;
 
+import com.winter.dao.MovieCollectDao;
 import com.winter.dao.MovieDao;
 import com.winter.dao.MovieDetailDao;
 import com.winter.dao.MovieScoreDao;
-import com.winter.domain.Movie;
-import com.winter.domain.MovieDetail;
-import com.winter.domain.MovieScore;
-import com.winter.domain.MovieVo;
+import com.winter.domain.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +23,9 @@ public class MovieService {
 
     @Autowired
     private MovieScoreDao movieScoreDao;
+
+    @Autowired
+    private MovieCollectDao movieCollectDao;
 
     public List<Movie> getMovies() {
         List<Movie> movieList = movieDao.findAll();
@@ -70,7 +71,32 @@ public class MovieService {
         if (res == null) {
             return false;
         }
+        // 判断该电影是否在想看列表，如果再则标记删除
+        if (movieCollectDao.existsByUidAndMid(uid, mid)) {
+            movieCollectDao.update(uid, mid);
+        }
         return true;
+    }
+
+    public boolean collectMovie(Integer uid, Integer mid) {
+        MovieCollect movieCollect = new MovieCollect();
+        movieCollect.setUid(uid);
+        movieCollect.setMid(mid);
+        movieCollect.setDeleted(0);
+        MovieCollect res = movieCollectDao.save(movieCollect);
+        if (res != null) {
+            return true;
+        }
+        return false;
+    }
+
+    public List<Movie> getCollectMovies(Integer uid) {
+        List<MovieCollect> midList = movieCollectDao.getMovieCollectsByUidAndDeleted(uid, 0);
+        List<Movie> list = new ArrayList<>();
+        for (MovieCollect movieCollect : midList) {
+            list.add(movieDao.getMovieById(movieCollect.getMid()));
+        }
+        return list;
     }
 
 }
