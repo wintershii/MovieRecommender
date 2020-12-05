@@ -59,8 +59,13 @@
               <el-button type="danger" plain @click="submitForm()"
                 >评分</el-button
               >
+              <el-button type="success" plain @click="collect()"
+                >想看</el-button
+              >
             </div>
-            <!-- <el-button type="success" plain>收藏</el-button> -->
+            <div v-else>
+              <el-button type="danger" disabled>已看过</el-button>
+            </div>
           </el-row>
         </div>
       </el-col>
@@ -133,6 +138,14 @@ export default {
         this.getValue();
       });
     },
+    collect() {
+      Axios.send("/movie/collect", "post", {
+        uid: localStorage.getItem("uid"),
+        mid: this.$route.params.id,
+      }).then((result) => {
+        window.alert("收藏成功!");
+      });
+    },
     getValue() {
       Axios.send("/movie/score", "get", {
         uid: localStorage.getItem("uid"),
@@ -143,7 +156,7 @@ export default {
             this.scoreData = result.data;
             // console.log(this.value);
             // console.log(this.scoreData);
-            this.value = this.scoreData
+            this.value = this.scoreData;
           },
           (error) => {
             console.log("registerAxiosError", error);
@@ -153,7 +166,7 @@ export default {
           this.value = 0;
           throw err;
         });
-        this.value = this.scoreData;
+      this.value = this.scoreData;
       return this.scoreData;
     },
   },
