@@ -57,14 +57,15 @@ public class OperaFormat {
         String dirPath = "year=" + year + "/" +
                 "month=" + month + "/" +
                 "day=" + day + "/";
-        String fileName = year + month + day + hour;
+        String fileName = year + month + day;
         String wholePath = _path + dirPath + fileName;
         String line = null;
         // 写入的内容
         line = userData.getUuid() + "," +
                 userData.getMid() + "," +
-                userData.getAgent() + "," +
-                year + "," + month + "," + day + "," + hour + "\n";
+//                userData.getAgent() + "," +
+                "1," + "0," + "0," + String.valueOf(24-Integer.parseInt(hour)) + "," +
+                year + "," + month + "," + day + "\n";
         OperaHDFS.writeHDFSFile(wholePath, line);
     }
 }

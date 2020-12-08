@@ -1,7 +1,10 @@
-CREATE EXTERNAL TABLE ods.ods_user_behavior_click(
+CREATE EXTERNAL TABLE ods.ods_user_behavior(
   uid string,
   mid string,
-  agent string
+  click string,
+  score string,
+  collect string,
+  interva string
 )
 PARTITIONED BY (
   year string,
@@ -12,5 +15,8 @@ ROW FORMAT DELIMITED
     FIELDS TERMINATED BY ','
 LOCATION '/hive/external/ods/behavior/';
 
-alter table ods.ods_user_behavior_click add partition(year='2020', month='12', day='04')
-location '/hive/external/ods/behavior/year=2020/month=12/day=04';
+alter table ods.ods_user_behavior add partition(year='2020', month='12', day='08')
+location '/hive/external/ods/behavior/year=2020/month=12/day=08';
+
+alter table ods.ods_user_behavior add partition(year='2020', month='12', day='05')
+location '/hive/external/ods/behavior/year=2020/month=12/day=05';
