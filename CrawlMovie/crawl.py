@@ -94,7 +94,8 @@ def getData(html):
         moviePic = movieLi.find('div', attrs={'class': 'pic'})
         moviePicUrl = moviePic.find('img')
         if (moviePicUrl):
-            data.append(moviePicUrl['src'])
+            urlParts = moviePicUrl['src'].split('/')
+            data.append(urlParts[len(urlParts)-1])
         else:
             data.append("无")
 
