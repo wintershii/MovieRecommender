@@ -1,0 +1,48 @@
+select uid as uid,
+  mid as item_id,
+  sum(click) * 0.33 * (1-avg(interva)/24) as click_score,
+  sum(score) * 0.33 * (1-avg(interva)/24) as grade_score,
+  sum(collect) * 0.33 * (1-avg(interva)/24) as collect_score
+  from ods.ods_user_behavior b
+  where year = '2020'
+  and month = '12'
+  and day = '08'
+  group by b.uid, b.mid
+
+select uid as uid,
+  mid as item_id
+  from ods.ods_user_behavior
+  group by uid, mid
+
+
+alter table ods.ods_user_behavior change column click click int
+
+
+CREATE TABLE dws.dws_behavior_score (
+  uid string,
+  item_id string,
+  click_score float ,
+  grade_score float ,
+  collect_score float
+)
+PARTITIONED BY (
+  year string,
+  month string,
+  day string
+)
+ROW FORMAT DELIMITED
+    FIELDS TERMINATED BY ',';
+
+
+CREATE TABLE dws.dws_user_item_rating (
+  uid string,
+  item_id string,
+  rating float
+)
+PARTITIONED BY (
+  year string,
+  month string,
+  day string
+)
+ROW FORMAT DELIMITED
+    FIELDS TERMINATED BY ',';

@@ -1,0 +1,13 @@
+----------------------------------------------------------------
+Wed Dec 09 16:20:12 CST 2020:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.10.2.0 - (1582446): instance a816c00e-0176-4696-1fa5-00000d67ca18 
+on database directory C:\Users\mirac\Desktop\MovieRecommender\UserItemRating\metastore_db with class loader org.apache.spark.sql.hive.client.IsolatedClientLoader$$anon$1@22fa55b2 
+Loaded from file:/C:/Users/mirac/.m2/repository/org/apache/derby/derby/10.10.2.0/derby-10.10.2.0.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.8.0_181-b13
+user.dir=C:\Users\mirac\Desktop\MovieRecommender\UserItemRating
+os.name=Windows 10
+os.arch=amd64
+os.version=10.0
+derby.system.home=null
+Database Class Loader started - derby.database.classpath=''
