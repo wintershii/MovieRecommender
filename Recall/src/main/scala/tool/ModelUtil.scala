@@ -5,13 +5,17 @@ import org.apache.spark.sql.functions._
 
 class ModelUtil(spark:SparkSession) {
 
+  val rsRecall = "history_rs_recall"
+
+  val cf = "recall"
+
   /**
     * 获取用户物品打分表
     */
   def getUserItemRating: DataFrame = {
 
     val data = spark.sql(
-      "select * from dws.dws_user_item_rating"
+      "select cast(uid as int), cast(item_id as int), cast(rating as double) from dws.dws_user_item_rating"
     )
     data
   }
@@ -25,7 +29,8 @@ class ModelUtil(spark:SparkSession) {
       .select(col("uid"), col("item_id"))
 
     // HBase
-
+    val hbase = new HBaseUtil(spark)
+    hbase.putData(rsRecall, recomList, cf, cell)
   }
 
 }

@@ -4,6 +4,10 @@ import org.apache.spark.sql.{DataFrame, SparkSession}
 import tool.ModelUtil
 
 object Recall {
+
+  val colALS = "als"
+  val colItem2Item = "item2item"
+
   def main(args: Array[String]): Unit = {
     val spark = SparkSession.builder()
       .appName("Recall")
@@ -31,7 +35,7 @@ object Recall {
     val alsRecallData = als.getALSRecall(model, spark)
 
     // 存储候选集
-//    modelUtil.saveRecall(alsRecallData)
+    modelUtil.saveRecall(alsRecallData, colALS)
 
     // 召回2：基于物品协同过滤 ItemCF
     val item2Item = new Item2ItemRecall()
@@ -46,8 +50,8 @@ object Recall {
     val item2ItemRecallData = item2Item.getItem2ItemRecall(data, itemCosSimBd, spark)
 
     // 存储候选集
-//    modelUtil.saveRecall(item2ItemRecallData)
-    alsRecallData.show()
-    item2ItemRecallData.show()
+    modelUtil.saveRecall(item2ItemRecallData, colItem2Item)
+//    alsRecallData.show()
+//    item2ItemRecallData.show()
   }
 }
