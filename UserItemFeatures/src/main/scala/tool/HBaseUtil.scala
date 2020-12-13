@@ -32,7 +32,7 @@ class HBaseUtil(spark:SparkSession) extends Serializable {
   }
 
   // 写入数据 cf列族， column列名
-  def putData(tableName:String, data:DataFrame, cf:String, column:String) : Unit = {
+  def putData(tableName:String, data:DataFrame, cf:String, column:String, tp:String) : Unit = {
     val hbaseConfig = HBaseConfiguration.create()
     val sc = spark.sparkContext
     // 初始化Job，设置输出格式TableOutputFormat，hbase.mapred.jar
@@ -43,7 +43,7 @@ class HBaseUtil(spark:SparkSession) extends Serializable {
     val _data = data.rdd.map( x => {
       val uid = x.get(0)
       val itemList = x.get(1)
-      val _rowKey = rowKeyHash(uid.toString)
+      val _rowKey = rowKeyHash(uid.toString, tp)
       val put = new Put(Bytes.toBytes(_rowKey))
       put.addColumn(Bytes.toBytes(cf), Bytes.toBytes(column), Bytes.toBytes(itemList.toString))
       (new ImmutableBytesWritable, put)
@@ -52,14 +52,14 @@ class HBaseUtil(spark:SparkSession) extends Serializable {
   }
 
 
-  def rowKeyHash(key:String) : String = {
+  def rowKeyHash(key:String, tp:String) : String = {
 
     var md5:MessageDigest = null
 
     md5 = MessageDigest.getInstance("MD5")
 
     // rowKey组成是 时间戳 + uid
-    val rowKey = System.currentTimeMillis() + ":" + key
+    val rowKey = tp + ":" + key
     val encode = md5.digest(rowKey.getBytes())
 
     encode.map("%02x".format(_)).mkString

@@ -49,7 +49,7 @@ object ItemFeature {
 //    itemFeatureAvgWeight.show(false)
 
     val hbaseUtil = new HBaseUtil(spark)
-    hbaseUtil.putData(itemFeatureTableName, itemFeatureAvgWeight, itemFeatureCf, itemFeatureCol)
+    hbaseUtil.putData(itemFeatureTableName, itemFeatureAvgWeight, itemFeatureCf, itemFeatureCol, "item_id")
 
   }
 }

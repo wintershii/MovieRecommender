@@ -50,7 +50,7 @@ object UserFeature {
 //    println(userFeatureAvgWeight.collect())
 //    userFeatureAvgWeight.show(false)
     val hbaseUtil = new HBaseUtil(spark)
-    hbaseUtil.putData(userFeatureTableName, userFeatureAvgWeight, userFeatureCf, userFeatureCol)
+    hbaseUtil.putData(userFeatureTableName, userFeatureAvgWeight, userFeatureCf, userFeatureCol, "uid")
   }
 
 
