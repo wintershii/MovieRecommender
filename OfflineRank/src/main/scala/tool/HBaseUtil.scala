@@ -4,20 +4,21 @@ import java.security.MessageDigest
 
 import org.apache.hadoop.hbase.HBaseConfiguration
 import org.apache.hadoop.hbase.io.ImmutableBytesWritable
-import org.apache.hadoop.hbase.mapreduce.TableInputFormat
+import org.apache.hadoop.hbase.mapreduce.{TableInputFormat, TableMapReduceUtil}
 import org.apache.spark.rdd.RDD
 import org.apache.spark.sql.{DataFrame, SparkSession}
-import org.apache.hadoop.hbase.client.{Put, Result}
+import org.apache.hadoop.hbase.client.{Put, Result, Scan}
 import org.apache.hadoop.hbase.mapred.TableOutputFormat
 import org.apache.hadoop.hbase.util.Bytes
 import org.apache.hadoop.mapred.JobConf
 
 class HBaseUtil(spark:SparkSession) extends Serializable {
 
+  @scala.transient private val hbaseConfig = HBaseConfiguration.create()
+  @scala.transient private val sc = spark.sparkContext
+
   // 读取数据
   def getData(tableName:String, cf:String, column:String) : DataFrame = {
-    val hbaseConfig = HBaseConfiguration.create()
-    val sc = spark.sparkContext
     hbaseConfig.set(TableInputFormat.INPUT_TABLE, tableName)
     val hbaseRDD:RDD[(ImmutableBytesWritable, Result)]
     = sc.newAPIHadoopRDD(hbaseConfig, classOf[TableInputFormat], classOf[ImmutableBytesWritable], classOf[Result])
@@ -32,9 +33,7 @@ class HBaseUtil(spark:SparkSession) extends Serializable {
   }
 
   // 写入数据 cf列族， column列名
-  def putData(tableName:String, data:DataFrame, cf:String, column:String) : Unit = {
-    val hbaseConfig = HBaseConfiguration.create()
-    val sc = spark.sparkContext
+  def putData(tableName:String, data:DataFrame, cf:String, column:String, tp:String) : Unit = {
     // 初始化Job，设置输出格式TableOutputFormat，hbase.mapred.jar
     val jobConf = new JobConf(hbaseConfig, this.getClass)
     jobConf.setOutputFormat(classOf[TableOutputFormat])
@@ -43,7 +42,7 @@ class HBaseUtil(spark:SparkSession) extends Serializable {
     val _data = data.rdd.map( x => {
       val uid = x.get(0)
       val itemList = x.get(1)
-      val _rowKey = rowKeyHash(uid.toString)
+      val _rowKey = rowKeyHash(uid.toString, tp)
       val put = new Put(Bytes.toBytes(_rowKey))
       put.addColumn(Bytes.toBytes(cf), Bytes.toBytes(column), Bytes.toBytes(itemList.toString))
       (new ImmutableBytesWritable, put)
@@ -51,15 +50,46 @@ class HBaseUtil(spark:SparkSession) extends Serializable {
     _data.saveAsHadoopDataset(jobConf)
   }
 
+  //读取特定数据
+  def scanData(tableName:String,
+               cf:String,
+               column:String,
+               start:String,
+               end:String) : DataFrame = {
+    import spark.implicits._
+    hbaseConfig.set(TableInputFormat.INPUT_TABLE, tableName)
+    val scan = new Scan(Bytes.toBytes(start), Bytes.toBytes(end))
+    scan.addFamily(Bytes.toBytes(cf))
+    scan.addColumn(Bytes.toBytes(cf), Bytes.toBytes(column))
+    val scanStr = TableMapReduceUtil.convertScanToString(scan)
+    hbaseConfig.set(TableInputFormat.SCAN, scanStr)
+    if (sc == null) {
+      println("spark context为空!!!!!")
+      return null
+    }
+    val hbaseRDD:RDD[(ImmutableBytesWritable,Result)]
+    = sc.newAPIHadoopRDD(hbaseConfig, classOf[TableInputFormat], classOf[ImmutableBytesWritable], classOf[Result])
+    val rs = hbaseRDD.map(_._2)
+      .map(r=>{
+        Bytes.toString(r.getValue(
+          Bytes.toBytes(cf),
+          Bytes.toBytes(column)
+        ))
+      }).filter(_ != null).toDF("value")
 
-  def rowKeyHash(key:String) : String = {
+    rs
+  }
+
+
+
+  def rowKeyHash(key:String, tp:String) : String = {
 
     var md5:MessageDigest = null
 
     md5 = MessageDigest.getInstance("MD5")
 
     // rowKey组成是 时间戳 + uid
-    val rowKey = System.currentTimeMillis() + ":" + key
+    val rowKey = tp + ":" + key
     val encode = md5.digest(rowKey.getBytes())
 
     encode.map("%02x".format(_)).mkString
