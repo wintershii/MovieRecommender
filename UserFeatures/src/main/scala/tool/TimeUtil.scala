@@ -1,5 +1,0 @@
-package tool
-
-class TimeUtil {
-
-}

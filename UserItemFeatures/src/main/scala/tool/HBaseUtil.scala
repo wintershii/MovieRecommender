@@ -54,15 +54,15 @@ class HBaseUtil(spark:SparkSession) extends Serializable {
 
   def rowKeyHash(key:String, tp:String) : String = {
 
-    var md5:MessageDigest = null
+//    var md5:MessageDigest = null
 
-    md5 = MessageDigest.getInstance("MD5")
+//    md5 = MessageDigest.getInstance("MD5")
 
     // rowKey组成是 时间戳 + uid
-    val rowKey = tp + ":" + key
-    val encode = md5.digest(rowKey.getBytes())
+    tp + ":" + key
+//    val encode = md5.digest(rowKey.getBytes())
 
-    encode.map("%02x".format(_)).mkString
+//    encode.map("%02x".format(_)).mkString
   }
 }
 
