@@ -8,13 +8,14 @@ class LRModel {
   def getModel(training:DataFrame, spark:SparkSession) : LogisticRegressionModel = {
 
     val vector = new VectorAssembler()
-      .setInputCols(Array("user_feature", "item_feature"))
+      .setInputCols(Array("userFeature", "itemFeature"))
       .setOutputCol("features")
 
     val trainFeature = vector.transform(training)
+//    trainFeature.show(false)
 
     val lr = new LogisticRegression()
-      .setLabelCol("click")
+      .setLabelCol("rating")
       .setFeaturesCol("features")
       .setMaxIter(500)
 
@@ -34,6 +35,8 @@ class LRModel {
     val cf = "recall"
     val colum = "item_id"
     val recall = hbaseUtil.getData(table, cf, colum)
+      .withColumnRenamed("value", "features")
+
     val _recall = lr.transform(recall)
 
     _recall

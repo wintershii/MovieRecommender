@@ -26,11 +26,27 @@ class HBaseUtil(spark:SparkSession) extends Serializable {
     import  spark.implicits._
     val rs = hbaseRDD.map(_._2)
       .map(r => {
-        (r.getValue(Bytes.toBytes(cf), Bytes.toBytes(column)))
-      }).toDF("value")
-
+        val key = Bytes.toString(r.getRow).split(":")(1)
+        val value = Bytes.toString(r.getValue(Bytes.toBytes(cf), Bytes.toBytes(column)))
+        (key, value)
+      }).toDF("key", "value")
     rs
   }
+
+  def getRecallData(tableName:String, cf:String, column:String) : DataFrame = {
+    hbaseConfig.set(TableInputFormat.INPUT_TABLE, tableName)
+    val hbaseRDD:RDD[(ImmutableBytesWritable, Result)]
+    = sc.newAPIHadoopRDD(hbaseConfig, classOf[TableInputFormat], classOf[ImmutableBytesWritable], classOf[Result])
+
+    import  spark.implicits._
+    val rs = hbaseRDD.map(_._2)
+      .map(r => {
+        Bytes.toString(r.getValue(Bytes.toBytes(cf), Bytes.toBytes(column)))
+      }).toDF("value")
+    rs
+  }
+
+
 
   // 写入数据 cf列族， column列名
   def putData(tableName:String, data:DataFrame, cf:String, column:String, tp:String) : Unit = {
