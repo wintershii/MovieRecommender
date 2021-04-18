@@ -29,8 +29,29 @@ class ModelUtil(spark:SparkSession) {
       .select(col("uid"), col("item_id"))
 
     // HBase
-    val hbase = new HBaseUtil(spark)
-    hbase.putData(rsRecall, recomList, cf, cell)
+//    val hbase = new HBaseUtil(spark)
+    putData(rsRecall, recomList, cell)
+
+  }
+
+  def putData(tableName:String, data:DataFrame, column:String) : Unit = {
+    val sc = spark.sparkContext
+    val key_predix = "recall_%s_%d"
+    val list : List[String] = List()
+    data.rdd.map( x => {
+      val uid = x.get(0)
+      val itemList = x.getList(1)
+      val redis = GetJedisConn.getJedis()
+//        redis.lpush(uid.toString, itemList.)\
+
+      import scala.collection.JavaConverters._
+      for (data <- itemList.toArray) {
+        redis.lpush(key_predix.format(column, uid), data.toString)
+      }
+//      redis.set(key_predix.format(column, uid), itemList.toString)
+      redis.close()
+    }).count()
+
   }
 
 }
@@ -38,4 +59,12 @@ class ModelUtil(spark:SparkSession) {
 object ModelUtil {
 
   def apply(spark: SparkSession): ModelUtil = new ModelUtil(spark)
+
+  def main(args: Array[String]): Unit = {
+//    val jedis = GetJedisConn.getJedis()
+//    jedis.set("jedix", "123")
+    val a = "als"
+    val b = 12345
+    println("recall_%s_%d".format(a, b))
+  }
 }

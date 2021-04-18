@@ -5,6 +5,8 @@ import org.apache.spark.ml.evaluation.RegressionEvaluator
 import org.apache.spark.ml.recommendation.{ALS, ALSModel}
 import org.apache.spark.sql.{DataFrame, SparkSession}
 import org.apache.spark.sql.functions.{col, explode}
+import org.apache.hadoop.fs.{FileSystem, Path}
+import org.apache.hadoop.conf.Configuration
 
 import scala.collection.mutable.ArrayBuffer
 
@@ -16,8 +18,19 @@ class ALSRecall(data: DataFrame) {
                regArray:Array[Double],
                alphaArray:Array[Double]):ALSModel = {
 
-    val Array(training, test) = data.randomSplit(Array(0.8, 0.2))
+    val format = new SimpleDateFormat("yyyy-MM-dd")
+    val date = format.format(new Date())
+    val savePath = "/model/als_model/" + date
+    val hadoopConf = new Configuration()
+    hadoopConf.addResource("hdfs-site.xml")
+    hadoopConf.addResource("core-site.xml")
+    val hdfs = FileSystem.get(hadoopConf)
+//    if (hdfs.exists(new Path(savePath))) {
+//      val model = ALSModel.read.load(savePath)
+//      return model
+//    }
 
+    val Array(training, test) = data.randomSplit(Array(0.8, 0.2))
     var map = Map[Double, ALSModel]()
     // 均方根误差
     val listMSE = ArrayBuffer[Double]()
@@ -54,10 +67,7 @@ class ALSRecall(data: DataFrame) {
 
     // 存放模型到HDFS
     // 按日期存放
-    val format = new SimpleDateFormat("yyyy-MM-dd")
-    val date = format.format(new Date())
-    val savePath = "/model/als_model/" + date
-    bestModel.save(savePath)
+    bestModel.write.overwrite().save(savePath)
 
     bestModel
 
