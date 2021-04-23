@@ -22,18 +22,22 @@ object BehaviorScore {
     val month = cal.get(Calendar.MONTH) + 1
     val day = cal.get(Calendar.DATE)
     var dayStr = String.valueOf(day)
+    var monthStr = String.valueOf(month)
     if (dayStr.length == 1) {
         dayStr = "0" + dayStr
     }
-//    println("alter table ods.ods_user_behavior add partition(year='" + year +"', month='" + month +"', day='" + dayStr +"') " +
+    if (monthStr.length == 1) {
+      monthStr = "0" + monthStr
+    }
+//    println("alter table ods.ods_user_behavior add partition(year='" + year +"', month='" + monthStr +"', day='" + dayStr +"') " +
 //      "location '/hive/external/ods/behavior/year=" + year +
 //      "/month=" + month +
 //      "/day=" + dayStr + "'")
 
     // 在ods中创建当天新的分区
-    spark.sql("alter table ods.ods_user_behavior add partition(year='" + year +"', month='" + month +"', day='" + dayStr +"') " +
+    spark.sql("alter table ods.ods_user_behavior add partition(year='" + year +"', month='" + monthStr +"', day='" + dayStr +"') " +
       "location '/hive/external/ods/behavior/year=" + year +
-      "/month=" + month +
+      "/month=" + monthStr +
         "/day=" + dayStr + "'")
 
 
@@ -48,12 +52,12 @@ object BehaviorScore {
         "as collect_score " +
         "from ods.ods_user_behavior " +
         " where year = " + year +
-        " and month = " + month +
+        " and month = " + monthStr +
         " and day = " + dayStr +
         " group by uid, mid "
     )
 
-//    behaviorScore.show()
+    behaviorScore.show()
     behaviorScore.createOrReplaceTempView("behavior_score")
 
     spark.sql("insert overwrite table " +

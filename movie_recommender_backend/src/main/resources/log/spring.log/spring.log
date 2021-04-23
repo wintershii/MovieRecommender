@@ -1,50 +1,79 @@
-2020-12-08 20:30:59.822  INFO 17416 --- [main] c.w.MovieRecommenderBackendApplication   : Starting MovieRecommenderBackendApplication using Java 1.8.0_181 on DESKTOP-72NEJ0I with PID 17416 (C:\Users\mirac\Desktop\MovieRecommender\movie_recommender_backend\target\classes started by wintershii in C:\Users\mirac\Desktop\MovieRecommender\movie_recommender_backend)
-2020-12-08 20:30:59.848  INFO 17416 --- [main] c.w.MovieRecommenderBackendApplication   : No active profile set, falling back to default profiles: default
-2020-12-08 20:31:01.253  INFO 17416 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFERRED mode.
-2020-12-08 20:31:01.384  INFO 17416 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 114 ms. Found 5 JPA repository interfaces.
-2020-12-08 20:31:02.191  INFO 17416 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8082 (http)
-2020-12-08 20:31:02.205  INFO 17416 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
-2020-12-08 20:31:02.206  INFO 17416 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.39]
-2020-12-08 20:31:02.359  INFO 17416 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
-2020-12-08 20:31:02.359  INFO 17416 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2368 ms
-2020-12-08 20:31:02.658  INFO 17416 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
-2020-12-08 20:31:02.718  INFO 17416 --- [task-1] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
-2020-12-08 20:31:02.792  WARN 17416 --- [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2020-12-08 20:31:02.812  INFO 17416 --- [task-1] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.4.23.Final
-2020-12-08 20:31:03.083  INFO 17416 --- [task-1] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
-2020-12-08 20:31:03.378  INFO 17416 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8082 (http) with context path ''
-2020-12-08 20:31:03.381  INFO 17416 --- [main] DeferredRepositoryInitializationListener : Triggering deferred initialization of Spring Data repositories…
-2020-12-08 20:31:03.391  INFO 17416 --- [task-1] com.alibaba.druid.pool.DruidDataSource   : {dataSource-1} inited
-2020-12-08 20:31:03.618  INFO 17416 --- [task-1] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
-2020-12-08 20:31:04.397  INFO 17416 --- [task-1] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
-2020-12-08 20:31:04.409  INFO 17416 --- [task-1] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2020-12-08 20:31:04.845  INFO 17416 --- [main] DeferredRepositoryInitializationListener : Spring Data repositories initialized!
-2020-12-08 20:31:04.854  INFO 17416 --- [main] c.w.MovieRecommenderBackendApplication   : Started MovieRecommenderBackendApplication in 5.909 seconds (JVM running for 7.48)
-2020-12-08 20:33:36.354  INFO 17416 --- [http-nio-8082-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
-2020-12-08 20:33:36.354  INFO 17416 --- [http-nio-8082-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
-2020-12-08 20:33:36.355  INFO 17416 --- [http-nio-8082-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
-2020-12-08 20:33:36.435  INFO 17416 --- [http-nio-8082-exec-1] com.winter.controller.UserController     : User{id=null, name='wintershii', password='123123', age=null, gender=null}
-2020-12-08 20:33:48.684  INFO 17416 --- [http-nio-8082-exec-3] com.winter.controller.UserController     : wintershii 123123
-2020-12-08 20:33:48.912  INFO 17416 --- [http-nio-8082-exec-2] com.winter.controller.MovieController    : wintergetMovies
-2020-12-08 20:33:52.480  INFO 17416 --- [http-nio-8082-exec-4] com.winter.controller.MovieController    : id:3getMovieDetail
-2020-12-08 20:33:58.802  INFO 17416 --- [http-nio-8082-exec-8] com.winter.controller.MovieController    : wintergetMovies
-2020-12-08 20:34:00.825  INFO 17416 --- [http-nio-8082-exec-9] com.winter.controller.MovieController    : id:10getMovieDetail
-2020-12-08 20:34:07.148  INFO 17416 --- [http-nio-8082-exec-3] com.winter.controller.MovieController    : wintergetMovies
-2020-12-08 20:34:09.782  INFO 17416 --- [http-nio-8082-exec-2] com.winter.controller.MovieController    : id:115getMovieDetail
-2020-12-08 20:34:13.330  INFO 17416 --- [http-nio-8082-exec-7] com.winter.controller.MovieController    : wintergetMovies
-2020-12-08 20:34:15.331  INFO 17416 --- [http-nio-8082-exec-8] com.winter.controller.MovieController    : id:173getMovieDetail
-2020-12-08 20:34:16.186  INFO 17416 --- [http-nio-8082-exec-9] com.winter.controller.MovieController    : wintergetMovies
-2020-12-08 20:34:18.032  INFO 17416 --- [http-nio-8082-exec-1] com.winter.controller.MovieController    : id:228getMovieDetail
-2020-12-08 20:34:18.835  INFO 17416 --- [http-nio-8082-exec-2] com.winter.controller.MovieController    : wintergetMovies
-2020-12-08 20:34:21.064  INFO 17416 --- [http-nio-8082-exec-5] com.winter.controller.MovieController    : id:244getMovieDetail
-2020-12-08 20:34:21.878  INFO 17416 --- [http-nio-8082-exec-6] com.winter.controller.MovieController    : wintergetMovies
-2020-12-08 20:34:24.177  INFO 17416 --- [http-nio-8082-exec-7] com.winter.controller.MovieController    : id:243getMovieDetail
-2020-12-08 20:34:25.089  INFO 17416 --- [http-nio-8082-exec-8] com.winter.controller.MovieController    : wintergetMovies
-2020-12-08 20:34:26.227  INFO 17416 --- [http-nio-8082-exec-9] com.winter.controller.MovieController    : id:2getMovieDetail
-2020-12-08 20:34:27.149  INFO 17416 --- [http-nio-8082-exec-1] com.winter.controller.MovieController    : wintergetMovies
-2020-12-08 20:34:27.565  INFO 17416 --- [http-nio-8082-exec-2] com.winter.controller.MovieController    : id:2getMovieDetail
-2020-12-08 20:34:28.347  INFO 17416 --- [http-nio-8082-exec-5] com.winter.controller.MovieController    : wintergetMovies
-2020-12-08 20:34:29.034  INFO 17416 --- [http-nio-8082-exec-6] com.winter.controller.MovieController    : id:2getMovieDetail
-2020-12-08 20:34:29.783  INFO 17416 --- [http-nio-8082-exec-10] com.winter.controller.MovieController    : wintergetMovies
-2020-12-08 20:34:33.864  INFO 17416 --- [http-nio-8082-exec-8] com.winter.controller.MovieController    : id:216getMovieDetail
-2020-12-08 20:34:37.253  INFO 17416 --- [http-nio-8082-exec-1] com.winter.controller.MovieController    : wintergetMovies
+2021-03-03 21:19:27.504  INFO 16436 --- [main] c.w.MovieRecommenderBackendApplication   : Starting MovieRecommenderBackendApplication using Java 1.8.0_181 on DESKTOP-72NEJ0I with PID 16436 (C:\Users\mirac\Desktop\MovieRecommender\movie_recommender_backend\target\classes started by wintershii in C:\Users\mirac\Desktop\MovieRecommender\movie_recommender_backend)
+2021-03-03 21:19:27.523  INFO 16436 --- [main] c.w.MovieRecommenderBackendApplication   : No active profile set, falling back to default profiles: default
+2021-03-03 21:19:29.391  INFO 16436 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFERRED mode.
+2021-03-03 21:19:29.519  INFO 16436 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 106 ms. Found 5 JPA repository interfaces.
+2021-03-03 21:19:32.000  INFO 16436 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8082 (http)
+2021-03-03 21:19:32.016  INFO 16436 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2021-03-03 21:19:32.016  INFO 16436 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.39]
+2021-03-03 21:19:32.927  INFO 16436 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2021-03-03 21:19:33.047  INFO 16436 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 5420 ms
+2021-03-03 21:19:33.844  INFO 16436 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2021-03-03 21:19:33.913  INFO 16436 --- [task-1] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2021-03-03 21:19:34.019  WARN 16436 --- [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2021-03-03 21:19:34.094  INFO 16436 --- [task-1] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.4.23.Final
+2021-03-03 21:19:34.395  INFO 16436 --- [task-1] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2021-03-03 21:19:34.790  INFO 16436 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8082 (http) with context path ''
+2021-03-03 21:19:34.795  INFO 16436 --- [main] DeferredRepositoryInitializationListener : Triggering deferred initialization of Spring Data repositories…
+2021-03-03 21:19:34.831  INFO 16436 --- [task-1] com.alibaba.druid.pool.DruidDataSource   : {dataSource-1} inited
+2021-03-03 21:19:35.720  INFO 16436 --- [task-1] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+2021-03-03 21:19:36.753  INFO 16436 --- [task-1] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2021-03-03 21:19:36.772  INFO 16436 --- [task-1] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2021-03-03 21:19:37.336  INFO 16436 --- [main] DeferredRepositoryInitializationListener : Spring Data repositories initialized!
+2021-03-03 21:19:37.349  INFO 16436 --- [main] c.w.MovieRecommenderBackendApplication   : Started MovieRecommenderBackendApplication in 11.073 seconds (JVM running for 13.73)
+2021-03-03 21:20:26.507  INFO 16436 --- [http-nio-8082-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2021-03-03 21:20:26.507  INFO 16436 --- [http-nio-8082-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2021-03-03 21:20:26.508  INFO 16436 --- [http-nio-8082-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2021-03-03 21:20:26.568  INFO 16436 --- [http-nio-8082-exec-1] com.winter.controller.UserController     : winter 123456
+2021-03-03 21:20:26.872  INFO 16436 --- [http-nio-8082-exec-2] com.winter.controller.MovieController    : wintergetMovies
+2021-03-03 21:20:46.369  INFO 16436 --- [http-nio-8082-exec-3] com.winter.controller.MovieController    : id:2getMovieDetail
+2021-03-03 21:21:23.228  INFO 16436 --- [http-nio-8082-exec-5] com.winter.controller.MovieController    : wintergetMovies
+2021-03-03 21:21:26.234  INFO 16436 --- [http-nio-8082-exec-6] com.winter.controller.MovieController    : id:13getMovieDetail
+2021-03-03 21:22:01.301  INFO 16436 --- [http-nio-8082-exec-9] com.winter.controller.MovieController    : wintergetMovies
+2021-03-03 21:22:03.960  INFO 16436 --- [http-nio-8082-exec-10] com.winter.controller.MovieController    : id:12getMovieDetail
+2021-03-03 21:22:05.800  INFO 16436 --- [http-nio-8082-exec-2] com.winter.controller.MovieController    : wintergetMovies
+2021-03-03 21:22:11.729  INFO 16436 --- [http-nio-8082-exec-4] com.winter.controller.MovieController    : id:227getMovieDetail
+2021-03-03 21:22:13.543  INFO 16436 --- [http-nio-8082-exec-5] com.winter.controller.MovieController    : wintergetMovies
+2021-03-03 21:22:17.109  INFO 16436 --- [http-nio-8082-exec-6] com.winter.controller.MovieController    : id:231getMovieDetail
+2021-03-03 21:22:19.255  INFO 16436 --- [http-nio-8082-exec-8] com.winter.controller.MovieController    : wintergetMovies
+2021-03-03 21:22:23.113  INFO 16436 --- [http-nio-8082-exec-9] com.winter.controller.MovieController    : id:217getMovieDetail
+2021-03-03 21:22:24.641  INFO 16436 --- [http-nio-8082-exec-10] com.winter.controller.MovieController    : wintergetMovies
+2021-03-03 21:55:39.779  INFO 2964 --- [main] c.w.MovieRecommenderBackendApplication   : Starting MovieRecommenderBackendApplication using Java 1.8.0_181 on DESKTOP-72NEJ0I with PID 2964 (C:\Users\mirac\Desktop\MovieRecommender\movie_recommender_backend\target\classes started by wintershii in C:\Users\mirac\Desktop\MovieRecommender\movie_recommender_backend)
+2021-03-03 21:55:39.784  INFO 2964 --- [main] c.w.MovieRecommenderBackendApplication   : No active profile set, falling back to default profiles: default
+2021-03-03 21:55:41.240  INFO 2964 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFERRED mode.
+2021-03-03 21:55:41.358  INFO 2964 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 101 ms. Found 5 JPA repository interfaces.
+2021-03-03 21:55:42.032  INFO 2964 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8082 (http)
+2021-03-03 21:55:42.041  INFO 2964 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2021-03-03 21:55:42.042  INFO 2964 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.39]
+2021-03-03 21:55:42.134  INFO 2964 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2021-03-03 21:55:42.135  INFO 2964 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2242 ms
+2021-03-03 21:55:42.375  INFO 2964 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2021-03-03 21:55:42.421  INFO 2964 --- [task-1] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2021-03-03 21:55:42.494  INFO 2964 --- [task-1] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.4.23.Final
+2021-03-03 21:55:42.497  WARN 2964 --- [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2021-03-03 21:55:42.669  INFO 2964 --- [task-1] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2021-03-03 21:55:42.930  INFO 2964 --- [task-1] com.alibaba.druid.pool.DruidDataSource   : {dataSource-1} inited
+2021-03-03 21:55:42.979  INFO 2964 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8082 (http) with context path ''
+2021-03-03 21:55:42.983  INFO 2964 --- [main] DeferredRepositoryInitializationListener : Triggering deferred initialization of Spring Data repositories…
+2021-03-03 21:55:43.128  INFO 2964 --- [task-1] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+2021-03-03 21:55:43.761  INFO 2964 --- [task-1] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2021-03-03 21:55:43.770  INFO 2964 --- [task-1] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2021-03-03 21:55:44.141  INFO 2964 --- [main] DeferredRepositoryInitializationListener : Spring Data repositories initialized!
+2021-03-03 21:55:44.152  INFO 2964 --- [main] c.w.MovieRecommenderBackendApplication   : Started MovieRecommenderBackendApplication in 5.273 seconds (JVM running for 6.766)
+2021-03-03 21:56:13.631  INFO 2964 --- [http-nio-8082-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2021-03-03 21:56:13.632  INFO 2964 --- [http-nio-8082-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2021-03-03 21:56:13.634  INFO 2964 --- [http-nio-8082-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2021-03-03 21:56:13.717  INFO 2964 --- [http-nio-8082-exec-1] com.winter.controller.UserController     : User{id=null, name='test', password='123456', age=null, gender=null}
+2021-03-03 21:56:26.581  INFO 2964 --- [http-nio-8082-exec-2] com.winter.controller.UserController     : test 123456
+2021-03-03 21:56:26.787  INFO 2964 --- [http-nio-8082-exec-3] com.winter.controller.MovieController    : wintergetMovies
+2021-03-03 21:56:50.370  INFO 2964 --- [http-nio-8082-exec-4] com.winter.controller.MovieController    : id:2getMovieDetail
+2021-03-03 21:57:14.772  INFO 2964 --- [http-nio-8082-exec-8] com.winter.controller.MovieController    : wintergetMovies
+2021-03-03 21:57:17.344  INFO 2964 --- [http-nio-8082-exec-9] com.winter.controller.MovieController    : id:7getMovieDetail
+2021-03-03 21:57:21.691  INFO 2964 --- [http-nio-8082-exec-2] com.winter.controller.MovieController    : wintergetMovies
+2021-03-03 21:57:25.753  INFO 2964 --- [http-nio-8082-exec-3] com.winter.controller.MovieController    : id:15getMovieDetail
+2021-03-03 21:57:29.269  INFO 2964 --- [http-nio-8082-exec-7] com.winter.controller.MovieController    : wintergetMovies
+2021-03-03 21:57:32.282  INFO 2964 --- [http-nio-8082-exec-8] com.winter.controller.MovieController    : id:115getMovieDetail
+2021-03-03 21:57:35.051  INFO 2964 --- [http-nio-8082-exec-9] com.winter.controller.MovieController    : wintergetMovies
+2021-03-03 21:57:37.107  INFO 2964 --- [http-nio-8082-exec-1] com.winter.controller.MovieController    : id:188getMovieDetail
+2021-03-03 21:57:40.398  INFO 2964 --- [http-nio-8082-exec-5] com.winter.controller.MovieController    : wintergetMovies
+2021-03-03 21:57:45.999  INFO 2964 --- [http-nio-8082-exec-3] com.winter.controller.MovieController    : id:11getMovieDetail
+2021-03-03 21:57:49.194  INFO 2964 --- [http-nio-8082-exec-7] com.winter.controller.MovieController    : wintergetMovies

@@ -1,10 +1,10 @@
 CREATE EXTERNAL TABLE ods.ods_user_behavior(
   uid string,
   mid string,
-  click string,
-  score string,
-  collect string,
-  interva string
+  click int,
+  score int,
+  collect int,
+  interva int
 )
 PARTITIONED BY (
   year string,
