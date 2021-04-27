@@ -12,11 +12,12 @@ import java.util.Properties;
 /**
  * Redission配置类
  */
-
+@Configuration
 public class RedissionConfig {
 
     private static String redisConfigFile = "application.properties";
 
+    @Bean
     public RedissonClient redissonClient() {
         RedissonClient redissonClient;
         Properties props = new Properties();
@@ -44,8 +45,8 @@ public class RedissionConfig {
 
     public static void main(String[] args) {
         RedissonClient redissonClient = new RedissionConfig().redissonClient();
-        RBloomFilter<Integer> bloomFilter = redissonClient.getBloomFilter("1");
-//        bloomFilter.tryInit(1000, 0.003);
+        RBloomFilter<Integer> bloomFilter = redissonClient.getBloomFilter("2");
+        bloomFilter.tryInit(1000, 0.003);
 //        bloomFilter.add(1);
 //        bloomFilter.add(3);
 //        bloomFilter.add(5);

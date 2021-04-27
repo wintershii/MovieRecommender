@@ -102,5 +102,3 @@ tf.keras.models.save_model(
     signatures=None,
     options=None
 )
-C:///Users/mirac/Desktop/MovieRecommender/ranker/modeldata/neuralcf:/models/recmodel
-C:/Users/mirac/Desktop/MovieRecommender/ranker/real_train

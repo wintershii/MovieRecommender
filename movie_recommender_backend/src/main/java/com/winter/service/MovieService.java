@@ -99,4 +99,12 @@ public class MovieService {
         return list;
     }
 
+    public List<Movie> getMovieByMidList(List<Integer> mids) {
+        List<Movie> list = new ArrayList<>();
+        for (Integer mid : mids) {
+            list.add(movieDao.getMovieById(mid));
+        }
+        return list;
+    }
+
 }

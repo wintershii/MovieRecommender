@@ -1,5 +1,6 @@
 package com.winter.controller;
 
+import com.winter.common.RedissionConfig;
 import com.winter.common.ResponseCode;
 import com.winter.common.ServerResponse;
 import com.winter.domain.Movie;
@@ -9,6 +10,8 @@ import com.winter.domain.User;
 import com.winter.service.MovieService;
 import com.winter.service.UserService;
 import org.apache.commons.lang3.StringUtils;
+import org.redisson.api.RBloomFilter;
+import org.redisson.api.RedissonClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,6 +32,9 @@ public class MovieController {
 
     @Autowired
     private MovieService movieService;
+
+    @Resource(name = "redissonClient")
+    private RedissonClient redissonClient;
 
     private static final Logger LOG = LoggerFactory.getLogger(MovieController.class);
 
@@ -83,6 +90,10 @@ public class MovieController {
                     ResponseCode.ILLEGAL_ARGUMENT.getDesc());
         }
         if (movieService.setMovieScore(uid, mid, score)) {
+            RBloomFilter<Integer> bloomFilter = redissonClient.getBloomFilter(uid.toString());
+            bloomFilter.tryInit(1000, 0.003);
+            bloomFilter.add(mid);
+
             return ServerResponse.createBySuccess(score);
         }
         return ServerResponse.createByErrorMessage("打分失败");
@@ -95,6 +106,10 @@ public class MovieController {
                     ResponseCode.ILLEGAL_ARGUMENT.getDesc());
         }
         if (movieService.collectMovie(uid, mid)) {
+            // 消重
+            RBloomFilter<Integer> bloomFilter = redissonClient.getBloomFilter(uid.toString());
+            bloomFilter.tryInit(1000, 0.003);
+            bloomFilter.add(mid);
             return ServerResponse.createBySuccess();
         }
         return ServerResponse.createByErrorMessage("收藏失败");
@@ -108,6 +123,31 @@ public class MovieController {
         }
         List<Movie> movieList = movieService.getCollectMovies(uid);
         return ServerResponse.createBySuccess(movieList);
+    }
+
+    @RequestMapping(value = "/collectShow", method = RequestMethod.GET)
+    public ServerResponse getCollectShow(Integer uid) {
+        if (uid == null) {
+            return ServerResponse.createByErrorCodeMessage(ResponseCode.ILLEGAL_ARGUMENT.getCode(),
+                    ResponseCode.ILLEGAL_ARGUMENT.getDesc());
+        }
+        List<Movie> movieList = movieService.getCollectMovies(uid);
+        List<List<String>> res = new ArrayList<>();
+        List<String> names = new ArrayList<>();
+        List<String> pics = new ArrayList<>();
+        List<String> ids = new ArrayList<>();
+        for (int i = 0; i < 4; ++i) {
+            if (i >= movieList.size()) {
+                break;
+            }
+            pics.add(movieList.get(i).getPicUrl());
+            names.add(movieList.get(i).getName());
+            ids.add(movieList.get(i).getId().toString());
+        }
+        res.add(pics);
+        res.add(names);
+        res.add(ids);
+        return ServerResponse.createBySuccess(res);
     }
 
 

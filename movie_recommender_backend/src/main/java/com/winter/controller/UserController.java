@@ -41,14 +41,16 @@ public class UserController {
 
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public ServerResponse register(User user) {
+    public ServerResponse register(User user, String movieTags) {
         LOG.info(user.toString());
         if (StringUtils.isBlank(user.getName()) || StringUtils.isBlank(user.getPassword())) {
             return ServerResponse.createByErrorCodeMessage(ResponseCode.ILLEGAL_ARGUMENT.getCode(),
                     ResponseCode.ILLEGAL_ARGUMENT.getDesc());
         }
+
         user.setPassword(MD5Utils.getPwd(user.getPassword()));
         boolean isSuccess = userService.save(user);
+        userService.addUserMovieTags(user.getId(), movieTags);
         if (isSuccess) {
             return ServerResponse.createBySuccessMessage("注册成功!");
         }

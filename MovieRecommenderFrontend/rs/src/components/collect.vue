@@ -1,7 +1,7 @@
 <template>
   <div>
   <div style="float:left">
-     <span class="title" style="font-size:30px">电影榜单</span>
+     <span class="title" style="font-size:30px">我的收藏</span>
   <el-table :data="dataShow" style="width: 100%">
     <el-table-column width="100px" align="center" prop="name" label="名称">
     </el-table-column>
@@ -26,40 +26,6 @@
     layout="prev, pager, next"
     :total="250">
   </el-pagination>
-  </div>
-  <div style="float:right;top:10px;position:fixed;right:20px;height=300px">
-    <span class="title" style="font-size:20px">猜你喜欢</span>
-    <el-button style="top=5px;right=5px" @click="recommendMovie()">更换一批</el-button>
-    <el-table :data="recommendData" style="width: 100%">
-    <el-table-column width="150px" align="center" prop="name" v-for="(item, index) in transTitle" :key="index" h>
-    <template slot-scope="scope">
-    <div v-if="scope.$index == 0">
-      <img :src="url + scope.row[index]" @click="clickRecommend(recommendIds[index])" height="180px" width="120px"/>
-    </div>
-    <div v-if="scope.$index == 1">
-      {{scope.row[index]}}
-    </div>
-    </template>
-    
-    </el-table-column>
-    </el-table>
-  </div>
-  <div style="float:right;bottom:10px;position:fixed;right:20px;height=300px">
-    <span class="title" style="font-size:20px">我的收藏</span> 
-    <el-button style="top=5px;right=5px" @click="collectDetail()">查看详情</el-button>
-      <el-table :data="collectData" style="width: 100%">
-    <el-table-column width="150px" align="center" prop="name" v-for="(item, index) in transTitle"  :key="index" h>
-    <template slot-scope="scope">
-    <div v-if="scope.$index == 0">
-      <img :src="url + scope.row[index]" @click="dump(collectIds[index])" height="180px" width="120px"/>
-    </div>
-    <div v-if="scope.$index == 1">
-      {{scope.row[index]}}
-    </div>
-    </template>
-    
-    </el-table-column>
-    </el-table>
   </div>
   </div>
 </template>
@@ -87,16 +53,10 @@ export default {
       currentPage: 0,
       page:1,
       transTitle:[1,2,3,4],
-      recommendData:[],
-      recommendIds:[],
-      collectData:[],
-      collectIds:[],
     };
   },
   mounted() {
     this.getMovie(); //在html加载完成后进行，相当于在页面上同步显示后端数据
-    this.recommendMovie();
-    this.collectMovie();
   },
   methods: {
     dump(id) {
@@ -104,17 +64,9 @@ export default {
       let {href} = this.$router.resolve({path: `/info/${id}`});
       window.open(href, '_blank');
     },
-    clickRecommend(id) {
-      let {href} = this.$router.resolve({path: `/info/${id}`});
-      window.open(href, '_blank');
-    },
-    collectDetail() {
-      let {href} = this.$router.resolve({path: `/collect`});
-      window.open(href, '_blank');
-    },
     getMovie() {
-      Axios.send("/movie/top250", "get", {
-        username: "winter",
+      Axios.send("/movie/collectList", "get", {
+        uid: localStorage.getItem("uid"),
       }).then((result) => {
         this.tabledata = result.data;
         console.log(this.tabledata);
@@ -125,26 +77,6 @@ export default {
         }
           // 获取到数据后显示第一页内容
           this.dataShow = this.totalPage[this.currentPage];
-      });
-    },
-    recommendMovie() {
-      Axios.send("/recommend/sort", "post", {
-        uid: localStorage.getItem("uid"),
-      }).then((result) => {
-        this.recommendData = result.data;
-        console.log(this.recommendData);
-        this.recommendIds = this.recommendData[2];
-        this.recommendData.length = this.recommendData.length-1;
-      });
-    },
-    collectMovie() {
-      Axios.send("/movie/collectShow", "get", {
-        uid: localStorage.getItem("uid"),
-      }).then((result) => {
-        this.collectData = result.data;
-        this.collectIds = this.collectData[2];
-        this.collectData.length = this.collectData.length-1;
-        console.log(this.collectData);
       });
     },
     nextPage() {

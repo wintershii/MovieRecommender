@@ -5,6 +5,7 @@ import login from '@/components/login'
 import logon from '@/components/logon'
 import list from '@/components/list'
 import info from '@/components/info'
+import collect from '@/components/collect'
 
 
 Vue.use(Router)
@@ -38,6 +39,11 @@ export default new Router({
     path: '/info/:id',
     name: 'info',
     component: info
+  },
+  {
+    path: '/collect',
+    name: 'collect',
+    component: collect
   }
   ]
 })

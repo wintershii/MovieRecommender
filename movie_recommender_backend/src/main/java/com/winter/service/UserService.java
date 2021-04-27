@@ -1,9 +1,11 @@
 package com.winter.service;
 
+import com.winter.common.RedisPoolUtil;
 import com.winter.dao.UserDao;
 import com.winter.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import redis.clients.jedis.Jedis;
 
 import java.util.List;
 
@@ -33,5 +35,13 @@ public class UserService {
             return false;
         }
         return true;
+    }
+
+    public void addUserMovieTags(Integer uid, String movieTags) {
+        if (movieTags.isEmpty()) {
+            return;
+        }
+        Jedis redis = RedisPoolUtil.getInstance();
+        redis.lpush("user_tag_" + uid, movieTags.split(","));
     }
 }

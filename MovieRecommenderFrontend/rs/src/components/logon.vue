@@ -2,10 +2,10 @@
   <div style="width: 270px; margin-top: 50px">
     <div
       style="
-        text-align: left;
+        text-align: middle;
         font-weight: 400;
         color: #666;
-        ont: 400 14px/1.5 'Hiragino Sans GB', 'WenQuanYi Micro Hei', tahoma,
+        ont: 400 30px/1.5 'Hiragino Sans GB', 'WenQuanYi Micro Hei', tahoma,
           sans-serif;
       "
     >
@@ -38,14 +38,10 @@
           prefix-icon="el-icon-lock"
         ></el-input>
       </el-form-item>
-      <el-form-item label="" prop="checkPass">
-        <el-input
-          type="password"
-          v-model="logon.checkPass"
-          placeholder="请再次输入密码"
-          autocomplete="off"
-          prefix-icon="el-icon-lock"
-        ></el-input>
+      <el-form-item label="">
+        <el-checkbox-group v-model="checkbox" @change="getValue()" size="mini" text-color="black">
+          <el-checkbox-button v-for="(item,i) in items" :label="i+1" :key="i" :disabled="item.disabled" :checked="item.checked" >{{item.content}}</el-checkbox-button>
+        </el-checkbox-group>
       </el-form-item>
       <el-form-item>
         <el-button
@@ -99,7 +95,7 @@ export default {
       }
     };
     return {
-      link: "/log/login",
+      link: "/log/log",
       logon: {
         pass: "",
         checkPass: "",
@@ -125,6 +121,21 @@ export default {
           },
         ],
       },
+      checkbox:[],
+      items:[
+        {id:0,content:"剧情",disabled:false,checked:false,value:0},
+        {id:1,content:"喜剧",disabled:false,checked:false},
+        {id:2,content:"动作",disabled:false,checked:false},
+        {id:3,content:"爱情",disabled:false,checked:false},
+        {id:4,content:"科幻",disabled:false,checked:false},
+        {id:5,content:"动画",disabled:false,checked:false},
+        {id:6,content:"悬疑",disabled:false,checked:false},
+        {id:7,content:"传记",disabled:false,checked:false},
+        {id:8,content:"战争",disabled:false,checked:false},
+      ],
+      checkboxForm:{
+        "movieTags":"",
+      },
     };
   },
   methods: {
@@ -134,11 +145,12 @@ export default {
           Axios.send("/user/register", "post", {
             name: this.logon.user,
             password: this.logon.pass,
+            movieTags: this.checkboxForm.movieTags,
           })
             .then(
               (res) => {
                 console.log(res);
-                this.$router.push("/login");
+                this.$router.push("/log");
               },
               (error) => {
                 alert("用户名重复");
@@ -154,6 +166,11 @@ export default {
     resetForm(formName) {
       this.$refs[formName].resetFields();
     },
+    getValue(){
+      console.log(this.checkbox);
+      this.checkboxForm.movieTags = this.checkbox.join(",");
+      console.log(this.checkboxForm.movieTags);
+    }
   },
 };
 </script>
